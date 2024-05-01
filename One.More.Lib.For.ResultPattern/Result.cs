@@ -4,7 +4,7 @@ namespace One.More.Lib.For.ResultPattern;
 
 public record Result
 {
-    public bool IsSuccess { get; private init; }
+    public virtual bool IsSuccess { get; private init; }
     public Error[] Errors { get; private init; } = [];
 
     public static Result Success { get; } = new Result { IsSuccess = true };
@@ -22,7 +22,10 @@ public record Result
 
 public record Result<T> : Result
 {
-    public T Value { get; init; } = default!;
+    [MemberNotNullWhen(true, nameof(Value))]
+    public override bool IsSuccess => base.IsSuccess;
+
+    public required T? Value { get; init; }
 
     public static implicit operator Result<T>(Error[] errors)
     {

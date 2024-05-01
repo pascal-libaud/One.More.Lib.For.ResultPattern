@@ -27,7 +27,7 @@ public static class ResultExtension
         }
     }
 
-    public static Result<IEnumerable<U>> Select<T, U>(this Result<IEnumerable<T>> result, Func<T, U> selector)
+    public static Result<IEnumerable<TResult>> Select<TSource, TResult>(this Result<IEnumerable<TSource>> result, Func<TSource, TResult> selector)
     {
         return result.Do(x => x.Select(selector));
     }
@@ -37,12 +37,12 @@ public static class ResultExtension
         return result.Do(x => x.Where(predicate));
     }
 
-    public static Result<IAsyncEnumerable<U>> SelectAsync<T, U>(this Result<IAsyncEnumerable<T>> result, Func<T, U> selector)
+    public static Result<IAsyncEnumerable<TResult>> SelectAsync<TSource, TResult>(this Result<IAsyncEnumerable<TSource>> result, Func<TSource, TResult> selector)
     {
         return result.Do(x => x.OmSelectAsync(selector));
     }
 
-    public static Result<IAsyncEnumerable<U>> SelectAsync<T, U>(this Result<IAsyncEnumerable<T>> result, Func<T, Task<U>> selector)
+    public static Result<IAsyncEnumerable<TResult>> SelectAsync<TSource, TResult>(this Result<IAsyncEnumerable<TSource>> result, Func<TSource, Task<TResult>> selector)
     {
         return result.Do(x => x.OmSelectAsync(selector));
     }
